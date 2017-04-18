@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :jobs do
       member do
-        post :publish
-        post :hide
+        post "publish" => "jobs#publish"
+        post "hide" => "jobs#hide"
       end
     end
   end

@@ -1,0 +1,6 @@
+
+      <% if job.is_hidden == true %>
+        <%= link_to("Hide", hide_admin_job_path(job), method: :post, :remote => true, class:"btn btn-xs btn-default") %>
+      <% else %>
+        <%= link_to("Publish", publish_admin_job_path(job), method: :post, :remote => true, class:"btn btn-xs btn-default") %>
+      <% end %>
