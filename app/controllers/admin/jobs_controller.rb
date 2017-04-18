@@ -1,6 +1,7 @@
 class Admin::JobsController < ApplicationController
   before_action :authenticate_user!, only:[:new, :create, :update, :edit, :destroy]
   before_action :require_is_admin
+  layout "admin"
 
   def index
     @jobs = Job.all
@@ -22,6 +23,11 @@ class Admin::JobsController < ApplicationController
 
   def show
     @job = Job.find(params[:id])
+
+    if @job.is_hidden
+      flash[:warning] = "职位已失效"
+      redirect_to root_path
+    end
   end
 
   def edit
@@ -32,7 +38,7 @@ class Admin::JobsController < ApplicationController
     @job = Job.find(params[:id])
     if @job.update(job_params)
       flash[:notice] = "成功更新职位"
-      redirect_to admin_job_path
+      redirect_to admin_jobs_path
     else
       render :edit
     end
@@ -42,6 +48,18 @@ class Admin::JobsController < ApplicationController
     @job = Job.find(params[:id])
     @job.destroy
     redirect_to admin_job_path
+  end
+
+  def publish
+    @job = Job.find(params[:id])
+    @job.publish!
+    redirect_to :back
+  end
+
+  def hide
+    @job = Job.find(params[:id])
+    @job.hide!
+    redirect_to :back
   end
 
 
