@@ -5,14 +5,16 @@ Rails.application.routes.draw do
   resources :jobs do
     resources :resumes
   end
-  
+
   namespace :admin do
     resources :jobs do
       member do
         post "publish" => "jobs#publish"
         post "hide" => "jobs#hide"
       end
-    end
+
+    resources :resumes
+   end
   end
 
 end
